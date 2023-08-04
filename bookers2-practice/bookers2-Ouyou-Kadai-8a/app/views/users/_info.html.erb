@@ -1,0 +1,44 @@
+<table class='table'>
+  <tr><%= image_tag user.get_profile_image, size:'100x100' %></tr>
+  <tr>
+	  <th>name</th>
+	  <th><%= user.name %></th>
+  </tr>
+  <tr>
+	  <th>introduction</th>
+	  <th><%= user.introduction %></th>
+  </tr>
+  <tr>
+    <th>Follows</th>
+    <th>
+      <%= link_to user.followings.count, user_followings_path(user) %></th>
+  </tr>
+  <tr>
+    <th>Followers</th>
+    <th><%= link_to user.followers.count, user_followers_path(user) %></th>
+  </tr>
+  </table>
+
+<div class='row'>
+  <% if user != current_user %>
+    <%= render 'relationships/btn', user: user %>
+    <!--DM機能用に追加-->
+    <% if (current_user.following?(user)) && (user.following?(current_user)) %>
+      <% if isRoom == true %>
+        <%= link_to "チャットへ",  room_path(roomId), class: "btn btn-primary" %>
+      <% else %>
+        <%= form_for room do |f| %>
+          <%= fields_for entry do |e| %>
+            <%= e.hidden_field:user_id, value: user.id %>
+          <% end %>
+          <%= f.submit "チャットを始める", class: "btn btn-primary user-show-chat" %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+  <% else %>
+    <%= link_to edit_user_path(user), class: "btn btn-outline-secondary btn-block edit_user_#{user.id}" do %>
+      <i class="fas fa-user-cog"></i>
+    <% end %>
+  <% end %>
+</div>
