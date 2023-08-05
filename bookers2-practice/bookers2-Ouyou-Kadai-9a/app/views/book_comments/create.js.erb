@@ -1,0 +1,7 @@
+$('#book-comments-counter').html("<%= j( render 'book_comments/counter', book: @comment.book ) %>");
+$('#book-comments-index').html("<%= j(render "book_comments/index", book: @comment.book) %>");
+$('.comment-textarea').val("");
+
+<!--コメント件数　book-comments-counter-->
+<!--コメント一覧　book-comments-index-->
+<!--コメント送信フォーム　book_comment_form-->
